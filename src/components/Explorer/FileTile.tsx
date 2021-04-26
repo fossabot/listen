@@ -21,7 +21,7 @@ export const FileTile = ({
     key={file.name}
     className={[
       `transition-all group`,
-      `hover:bg-gray-100 hover:text-gray-900 flex flex-row items-center justify-between rounded-lg p-3 m-1`,
+      `hover:bg-gray-100 hover:text-gray-900 flex flex-row items-center justify-between rounded-lg p-3`,
       isActiveFile && 'primary shadow-md',
     ]
       .filter(Boolean)

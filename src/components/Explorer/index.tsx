@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
 import { DropBox } from './DropBox';
 import { getFileSystemEntries } from '../../util/fileSystem';
@@ -71,6 +72,8 @@ const Explorer = ({
     setDropZoneVisible(false);
     return false;
   };
+
+  const handleFileDragEnd = () => {};
 
   const createDropHandler = (
     box: string,
@@ -159,17 +162,53 @@ const Explorer = ({
             onDelete={handleEntryDelete}
           />
         ))}
-      {files
-        .filter((x) => !hidden.includes(x.name))
-        .map((x) => (
-          <FileTile
-            file={x}
-            isActiveFile={x === activeFile}
-            onOpen={handleFileOpen}
-            onHide={handleEntryHide}
-            onDelete={handleEntryDelete}
-          />
-        ))}
+
+      <DragDropContext onDragEnd={handleFileDragEnd}>
+        <Droppable droppableId={'files'}>
+          {(provided, snapshot) => (
+            <div
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+              className={[
+                'transition-all duration-200 rounded-xl',
+                snapshot.isDraggingOver && 'bg-gray-200 shadow-inner',
+              ]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              {files
+                .filter((x) => !hidden.includes(x.name))
+                .map((x, i) => (
+                  // this index vs. index in app is different because of hodden files
+                  <Draggable draggableId={x.name} index={i}>
+                    {(provided, snapshot) => (
+                      <div
+                        className={[
+                          'transform transition-all bg-white rounded-lg m-1',
+                          snapshot.isDragging && 'shadow-lg opacity-90 border',
+                        ]
+                          .filter(Boolean)
+                          .join(' ')}
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <FileTile
+                          file={x}
+                          isActiveFile={x === activeFile}
+                          onOpen={handleFileOpen}
+                          onHide={handleEntryHide}
+                          onDelete={handleEntryDelete}
+                        />
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
     </div>
   );
 };
