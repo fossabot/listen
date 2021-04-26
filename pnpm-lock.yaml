@@ -12,7 +12,7 @@ specifiers:
   '@types/chai': 4.2.16
   '@types/mocha': 8.2.2
   '@types/react': 17.0.3
-  '@types/react-beautiful-dnd': ^13.0.0
+  '@types/react-beautiful-dnd': 13.0.0
   '@types/react-dom': 17.0.3
   '@types/snowpack-env': 2.3.3
   '@web/test-runner': 0.13.2
@@ -23,7 +23,7 @@ specifiers:
   postcss: 8.2.12
   prettier: 2.2.1
   react: 17.0.2
-  react-beautiful-dnd: ^13.1.0
+  react-beautiful-dnd: 13.1.0
   react-dom: 17.0.2
   snowpack: 3.3.5
   tailwindcss: 2.1.2
